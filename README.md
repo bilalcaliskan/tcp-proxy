@@ -1,7 +1,7 @@
-## Layer 4 Proxy
+## TCP Proxy
 [![CI](https://github.com/bilalcaliskan/tcp-proxy/workflows/CI/badge.svg?event=push)](https://github.com/bilalcaliskan/tcp-proxy/actions?query=workflow%3ACI)
 
-Simple Layer 4 proxy written Golang. 
+Simple TCP proxy written Golang. 
 
 ### Installation
 #### Binary
