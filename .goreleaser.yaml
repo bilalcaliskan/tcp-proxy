@@ -1,4 +1,4 @@
-project_name: nginx-conf-generator
+project_name: tcp-proxy
 env:
   - CGO_ENABLED=0
   - GOFLAGS=-mod=vendor
@@ -18,4 +18,4 @@ builds:
       - amd64
     ldflags:
       - -s -w
-    main: ./cmd/nginx-conf-generator/main.go
+    main: ./main.go

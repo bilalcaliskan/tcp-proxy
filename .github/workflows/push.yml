@@ -125,7 +125,7 @@ jobs:
       - name: Upload assets
         uses: actions/upload-artifact@v2
         with:
-          name: layer4-proxy
+          name: tcp-proxy
           path: dist/*
 
   docker:
@@ -143,12 +143,12 @@ jobs:
         uses: WyriHaximus/github-action-get-previous-tag@v1
 
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag bilalcaliskan/layer4-proxy:${{ steps.previoustag.outputs.tag }}
+        run: docker build . --file Dockerfile --tag bilalcaliskan/tcp-proxy:${{ steps.previoustag.outputs.tag }}
 
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
-          name: bilalcaliskan/layer4-proxy
+          name: bilalcaliskan/tcp-proxy
           tags: "latest,${{ steps.previoustag.outputs.tag }}"
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}

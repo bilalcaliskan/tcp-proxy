@@ -1,4 +1,4 @@
-module github.com/bilalcaliskan/layer4-proxy
+module github.com/bilalcaliskan/tcp-proxy
 
 go 1.16
 
