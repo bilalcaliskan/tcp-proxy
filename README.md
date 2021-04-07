@@ -1,5 +1,6 @@
 ## TCP Proxy
 [![CI](https://github.com/bilalcaliskan/tcp-proxy/workflows/CI/badge.svg?event=push)](https://github.com/bilalcaliskan/tcp-proxy/actions?query=workflow%3ACI)
+[![Docker pulls](https://img.shields.io/docker/pulls/bilalcaliskan/tcp-proxy)](https://hub.docker.com/r/bilalcaliskan/tcp-proxy/)
 
 Simple TCP proxy written Golang. 
 
