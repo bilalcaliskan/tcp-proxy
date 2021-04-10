@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	_ "github.com/dimiro1/banner/autoload"
 	flag "github.com/spf13/pflag"
 	"go.uber.org/zap"
 	"io"
