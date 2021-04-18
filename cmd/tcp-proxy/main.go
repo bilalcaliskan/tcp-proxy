@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
+	"github.com/bilalcaliskan/tcp-proxy/pkg/logging"
+	"github.com/bilalcaliskan/tcp-proxy/pkg/proxy"
 	_ "github.com/dimiro1/banner/autoload"
 	flag "github.com/spf13/pflag"
 	"go.uber.org/zap"
-	"io"
 	"net"
 )
 
@@ -13,14 +14,10 @@ var (
 	logger *zap.Logger
 	proxyProto, targetProto, targetDns string
 	proxyPort, targetPort int
-	err error
 )
 
 func init() {
-	logger, err = zap.NewProduction()
-	if err != nil {
-		panic(err)
-	}
+	logger = logging.GetLogger()
 
 	flag.StringVar(&proxyProto, "proxyProto", "tcp", "Provide a proxy server protocol")
 	flag.IntVar(&proxyPort, "proxyPort", 3000, "Provide a port to run proxy server on")
@@ -53,36 +50,6 @@ func main() {
 			logger.Fatal("fatal error occured while accepting connection", zap.Error(err))
 		}
 
-		go handle(conn, targetProto, connectionStr)
-	}
-}
-
-func handle(src net.Conn, targetProto, connectionStr string) {
-	dst, err := net.Dial(targetProto, connectionStr)
-	if err != nil {
-		logger.Fatal("fatal error occured while connecting to remote host", zap.String("remoteHost", connectionStr),
-			zap.Error(err))
-	}
-
-	defer func() {
-		err := dst.Close()
-		if err != nil {
-			panic(err)
-		}
-	}()
-
-	// Run in goroutine to prevent io.Copy from blocking
-	go func() {
-		// Copy our source's output to the destination
-		if _, err := io.Copy(dst, src); err != nil {
-			logger.Fatal("fatal error occured while proxying", zap.String("src", src.LocalAddr().String()),
-				zap.String("dst", src.RemoteAddr().String()), zap.Error(err))
-		}
-	}()
-
-	// Copy our destination's output back to our source
-	if _, err := io.Copy(src, dst); err != nil {
-		logger.Fatal("fatal error occured while proxying", zap.String("src", src.LocalAddr().String()),
-			zap.String("dst", src.RemoteAddr().String()), zap.Error(err))
+		go proxy.Proxy(conn, targetProto, connectionStr)
 	}
 }

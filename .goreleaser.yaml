@@ -18,4 +18,4 @@ builds:
       - amd64
     ldflags:
       - -s -w
-    main: ./main.go
+    main: ./cmd/tcp-proxy/main.go
