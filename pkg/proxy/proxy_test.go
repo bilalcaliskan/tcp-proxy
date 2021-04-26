@@ -16,6 +16,7 @@ func TestProxy(t *testing.T) {
 		name, proxyProto, targetProto, targetDns string
 		proxyPort, targetPort int
 	}{
+		// TODO: Different protos, like tcp4, ip4. Check https://golang.org/pkg/net/#Dial
 		{"TCP3000", "tcp", "tcp", "en.wikipedia.org", 3000,
 			443},
 		{"TCP3001", "tcp", "tcp", "en.wikipedia.org", 3001,
