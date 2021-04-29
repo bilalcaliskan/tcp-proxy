@@ -3,7 +3,6 @@ package proxy
 import (
 	"fmt"
 	"io"
-	"log"
 	"net"
 	"testing"
 	"time"
@@ -38,7 +37,7 @@ func TestProxy(t *testing.T) {
 					return
 				}
 
-				go func(conn net.Conn) {
+				go func() {
 					dst, err := net.Dial(tc.targetProto, fmt.Sprintf("%s:%d", tc.targetDns, tc.targetPort))
 					if err != nil {
 						t.Errorf("%v\n", err.Error())
@@ -52,6 +51,7 @@ func TestProxy(t *testing.T) {
 
 					if _, err := io.Copy(conn, dst); err != nil {
 						t.Errorf("%v\n", err.Error())
+						return
 					}
 
 					defer func() {
@@ -67,18 +67,19 @@ func TestProxy(t *testing.T) {
 						t.Errorf("%v\n", err.Error())
 						return
 					}
-				}(conn)
+				}()
 			}()
 
 			go func() {
-				for i := 0; i < 5; i++ {
-					_, err := net.Dial(tc.targetProto, fmt.Sprintf("127.0.0.1:%d", tc.proxyPort))
+				for i := 0; i <= 5; i++ {
+					_, err := net.Dial(tc.targetProto, fmt.Sprintf("127.0.0.1:%d", 3030))
 					if err == nil {
-						log.Println("connection succeeded")
-						break
+						t.Logf("connection to port %d succeeded!\n", tc.proxyPort)
+						return
 					}
+
+					t.Errorf("connection to port %d could not succeeded, retrying...\n", tc.proxyPort)
 					time.Sleep(2 * time.Second)
-					log.Println("connection could not succeeded, retrying...")
 				}
 			}()
 
