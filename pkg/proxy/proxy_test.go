@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"net"
+	"sync"
 	"testing"
 	"time"
 )
@@ -70,21 +71,35 @@ func TestProxy(t *testing.T) {
 				}()
 			}()
 
+			var wg sync.WaitGroup
+			wg.Add(1)
+
 			go func() {
 				for i := 0; i <= 5; i++ {
-					_, err := net.Dial(tc.targetProto, fmt.Sprintf("127.0.0.1:%d", 3030))
-					if err == nil {
-						t.Logf("connection to port %d succeeded!\n", tc.proxyPort)
-						return
+					if i == 5 {
+						// * Error()  = Fail()    + Log()
+						// * Errorf() = Fail()    + Logf()
+						// * Fatal()  = FailNow() + Log()
+						// * Fatalf() = FailNow() + Logf()
+						t.Errorf("connection to port %d could not succeeded, not retrying!\n", tc.proxyPort)
+						break
 					}
 
-					t.Errorf("connection to port %d could not succeeded, retrying...\n", tc.proxyPort)
-					time.Sleep(2 * time.Second)
+					_, err := net.Dial(tc.targetProto, fmt.Sprintf("127.0.0.1:%d", tc.proxyPort))
+					if err != nil {
+						t.Logf("connection to port %d could not succeeded, retrying...\n", tc.proxyPort)
+						time.Sleep(2 * time.Second)
+						continue
+					}
+
+					t.Logf("connection to port %d succeeded!\n", tc.proxyPort)
+					break
 				}
+
+				defer wg.Done()
 			}()
 
-			// TODO: wait for goroutines to complete their jobs using channel
-			time.Sleep(10 * time.Second)
+			wg.Wait()
 		})
 	}
 }
