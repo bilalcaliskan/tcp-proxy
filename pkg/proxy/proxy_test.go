@@ -12,9 +12,9 @@ import (
 // https://gist.github.com/mtilson/00f72d7cbd98e3d1b9cf2c8bb9ec39b7
 // https://ipfs.io/ipfs/QmfYeDhGH9bZzihBUDEQbCbTc5k5FZKURMUoUvfmc27BwL/socket/tcp_sockets.html
 func TestProxy(t *testing.T) {
-	var cases = []struct{
+	var cases = []struct {
 		name, proxyProto, targetProto, targetDns string
-		proxyPort, targetPort int
+		proxyPort, targetPort                    int
 	}{
 		// TODO: Different protos, like tcp4, ip4. Check https://golang.org/pkg/net/#Dial
 		{"TCP3000", "tcp", "tcp", "en.wikipedia.org", 3000,

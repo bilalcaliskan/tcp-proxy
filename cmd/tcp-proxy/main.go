@@ -11,9 +11,9 @@ import (
 )
 
 var (
-	logger *zap.Logger
+	logger                             *zap.Logger
 	proxyProto, targetProto, targetDns string
-	proxyPort, targetPort int
+	proxyPort, targetPort              int
 )
 
 func init() {
@@ -38,7 +38,7 @@ func main() {
 	connectionStr := fmt.Sprintf("%s:%d", targetDns, targetPort)
 	listener, err := net.Listen(proxyProto, fmt.Sprintf(":%d", proxyPort))
 	if err != nil {
-		logger.Fatal("fatal error occured while listening", zap.String("proto", proxyProto),
+		logger.Fatal("fatal error occurred while listening", zap.String("proto", proxyProto),
 			zap.Int("port", proxyPort), zap.Error(err))
 	}
 
@@ -47,7 +47,7 @@ func main() {
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
-			logger.Fatal("fatal error occured while accepting connection", zap.Error(err))
+			logger.Fatal("fatal error occurred while accepting connection", zap.Error(err))
 		}
 
 		go proxy.Proxy(conn, targetProto, connectionStr)
