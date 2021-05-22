@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/bilalcaliskan/tcp-proxy/pkg/logging"
 	"github.com/bilalcaliskan/tcp-proxy/pkg/proxy"
-	_ "github.com/dimiro1/banner/autoload"
 	flag "github.com/spf13/pflag"
 	"go.uber.org/zap"
 	"net"
