@@ -42,8 +42,8 @@ cross-compile:
 	GOOS=windows GOARCH=amd64 go build -o bin/main-windows-amd64 cmd/tcp-proxy/main.go
 
 upgrade-deps:
-	go mod vendor
 	go get -u ./...
 	go mod tidy
+	go mod vendor
 
 all: test build run
