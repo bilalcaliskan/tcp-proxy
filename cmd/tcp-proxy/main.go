@@ -5,14 +5,21 @@ import (
 	"github.com/bilalcaliskan/tcp-proxy/pkg/logging"
 	"github.com/bilalcaliskan/tcp-proxy/pkg/options"
 	"github.com/bilalcaliskan/tcp-proxy/pkg/proxy"
+	"github.com/dimiro1/banner"
 	"go.uber.org/zap"
+	"io/ioutil"
 	"net"
+	"os"
+	"strings"
 )
 
 var logger *zap.Logger
 
 func init() {
 	logger = logging.GetLogger()
+
+	bannerBytes, _ := ioutil.ReadFile("banner.txt")
+	banner.Init(os.Stdout, true, false, strings.NewReader(string(bannerBytes)))
 }
 
 func main() {
