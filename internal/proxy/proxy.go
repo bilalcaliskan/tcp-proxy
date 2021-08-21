@@ -1,7 +1,7 @@
 package proxy
 
 import (
-	"github.com/bilalcaliskan/tcp-proxy/pkg/logging"
+	"github.com/bilalcaliskan/tcp-proxy/internal/logging"
 	"go.uber.org/zap"
 	"io"
 	"net"

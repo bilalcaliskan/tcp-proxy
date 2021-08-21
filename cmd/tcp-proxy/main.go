@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/bilalcaliskan/tcp-proxy/pkg/logging"
-	"github.com/bilalcaliskan/tcp-proxy/pkg/options"
-	"github.com/bilalcaliskan/tcp-proxy/pkg/proxy"
+	"github.com/bilalcaliskan/tcp-proxy/internal/logging"
+	"github.com/bilalcaliskan/tcp-proxy/internal/options"
+	"github.com/bilalcaliskan/tcp-proxy/internal/proxy"
 	"github.com/dimiro1/banner"
 	"go.uber.org/zap"
 	"io/ioutil"
