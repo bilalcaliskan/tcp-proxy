@@ -3,8 +3,8 @@
 [![Docker pulls](https://img.shields.io/docker/pulls/bilalcaliskan/tcp-proxy)](https://hub.docker.com/r/bilalcaliskan/tcp-proxy/)
 [![Go Report Card](https://goreportcard.com/badge/github.com/bilalcaliskan/tcp-proxy)](https://goreportcard.com/report/github.com/bilalcaliskan/tcp-proxy)
 [![codecov](https://codecov.io/gh/bilalcaliskan/tcp-proxy/branch/master/graph/badge.svg)](https://codecov.io/gh/bilalcaliskan/tcp-proxy)
-[![Release](https://img.shields.io/github/release/bilalcaliskan/varnish-cache-invalidator.svg)](https://github.com/bilalcaliskan/varnish-cache-invalidator/releases/latest)
-[![Go version](https://img.shields.io/github/go-mod/go-version/bilalcaliskan/varnish-cache-invalidator)](https://github.com/bilalcaliskan/varnish-cache-invalidator)
+[![Release](https://img.shields.io/github/release/bilalcaliskan/tcp-proxy.svg)](https://github.com/bilalcaliskan/tcp-proxy/releases/latest)
+[![Go version](https://img.shields.io/github/go-mod/go-version/bilalcaliskan/tcp-proxy)](https://github.com/bilalcaliskan/tcp-proxy)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 Simple TCP proxy written with Golang using built-in [net package](https://pkg.go.dev/net).
