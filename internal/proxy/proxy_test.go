@@ -2,7 +2,6 @@ package proxy
 
 import (
 	"fmt"
-	"io"
 	"net"
 	"sync"
 	"testing"
@@ -16,15 +15,13 @@ func TestProxy(t *testing.T) {
 		name, proxyProto, targetProto, targetDns string
 		proxyPort, targetPort                    int
 	}{
-		// TODO: Different protos, like tcp4, ip4. Check https://golang.org/pkg/net/#Dial
-		{"TCP3000", "tcp", "tcp", "en.wikipedia.org", 3000,
-			443},
-		//{"TCP3001", "tcp", "tcp", "en.wikipedia.org", 3001,
-		//	443},
+		{"TCP3000", "tcp", "tcp", "en.wikipedia.org", 3000, 443},
+		{"TCP3001", "tcp", "tcp", "en.wikipedia.org", 3001, 443},
 	}
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
+
 			go func() {
 				listener, err := net.Listen(tc.proxyProto, fmt.Sprintf(":%d", tc.proxyPort))
 				if err != nil {
@@ -38,37 +35,8 @@ func TestProxy(t *testing.T) {
 					return
 				}
 
-				go func() {
-					dst, err := net.Dial(tc.targetProto, fmt.Sprintf("%s:%d", tc.targetDns, tc.targetPort))
-					if err != nil {
-						t.Errorf("%v\n", err.Error())
-						return
-					}
-
-					if _, err := io.Copy(dst, conn); err != nil {
-						t.Errorf("%v\n", err.Error())
-						return
-					}
-
-					if _, err := io.Copy(conn, dst); err != nil {
-						t.Errorf("%v\n", err.Error())
-						return
-					}
-
-					defer func() {
-						err := conn.Close()
-						if err != nil {
-							t.Errorf("%v\n", err.Error())
-							return
-						}
-					}()
-
-					err = dst.Close()
-					if err != nil {
-						t.Errorf("%v\n", err.Error())
-						return
-					}
-				}()
+				connectionStr := fmt.Sprintf("%s:%d", tc.targetDns, tc.targetPort)
+				go Proxy(conn, tc.targetProto, connectionStr)
 			}()
 
 			var wg sync.WaitGroup
