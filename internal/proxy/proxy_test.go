@@ -16,7 +16,7 @@ func TestProxy(t *testing.T) {
 		proxyPort, targetPort                    int
 	}{
 		{"TCP3000", "tcp", "tcp", "en.wikipedia.org", 3000, 443},
-		{"TCP3001", "tcp", "tcp", "en.wikipedia.org", 3001, 443},
+		// {"TCP3001", "tcp", "tcp", "en.wikipedia.org", 3001, 443},
 	}
 
 	for _, tc := range cases {
