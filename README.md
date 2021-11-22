@@ -12,11 +12,11 @@ Simple TCP proxy written with Golang using built-in [net package](https://pkg.go
 ## Configuration
 tcp-proxy can be customized with several command line arguments:
 ```
---proxyPort int        Provide a port to run proxy server on, defaults to 3000
---proxyProto string    Provide a proxy server protocol, defaults to tcp
---targetDns string     Provide a target DNS to proxy, defaults to en.wikipedia.org
---targetPort int       Provide a target port to proxy, defaults to 443
---targetProto string   Provide a target protocol to proxy, defaults to tcp
+--proxyPort         int         Provide a port to run proxy server on, defaults to 3000
+--proxyProto        string      Provide a proxy server protocol, defaults to tcp
+--targetDns         string      Provide a target DNS to proxy, defaults to en.wikipedia.org
+--targetPort        int         Provide a target port to proxy, defaults to 443
+--targetProto       string      Provide a target protocol to proxy, defaults to tcp
 ```
 
 ## Installation
