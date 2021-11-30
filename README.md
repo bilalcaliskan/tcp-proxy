@@ -2,6 +2,7 @@
 [![CI](https://github.com/bilalcaliskan/tcp-proxy/workflows/CI/badge.svg?event=push)](https://github.com/bilalcaliskan/tcp-proxy/actions?query=workflow%3ACI)
 [![Docker pulls](https://img.shields.io/docker/pulls/bilalcaliskan/tcp-proxy)](https://hub.docker.com/r/bilalcaliskan/tcp-proxy/)
 [![Go Report Card](https://goreportcard.com/badge/github.com/bilalcaliskan/tcp-proxy)](https://goreportcard.com/report/github.com/bilalcaliskan/tcp-proxy)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bilalcaliskan_tcp-proxy&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=bilalcaliskan_tcp-proxy)
 [![codecov](https://codecov.io/gh/bilalcaliskan/tcp-proxy/branch/master/graph/badge.svg)](https://codecov.io/gh/bilalcaliskan/tcp-proxy)
 [![Release](https://img.shields.io/github/release/bilalcaliskan/tcp-proxy.svg)](https://github.com/bilalcaliskan/tcp-proxy/releases/latest)
 [![Go version](https://img.shields.io/github/go-mod/go-version/bilalcaliskan/tcp-proxy)](https://github.com/bilalcaliskan/tcp-proxy)
