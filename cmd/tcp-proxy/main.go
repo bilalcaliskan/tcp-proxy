@@ -46,6 +46,10 @@ func main() {
 			logger.Fatal("fatal error occurred while accepting connection", zap.Error(err))
 		}
 
-		go proxy.Proxy(conn, tpo.TargetProto, connectionStr)
+		go func() {
+			if err := proxy.Proxy(conn, tpo.TargetProto, connectionStr); err != nil {
+				logger.Fatal("fatal error occured while proxying", zap.Error(err))
+			}
+		}()
 	}
 }

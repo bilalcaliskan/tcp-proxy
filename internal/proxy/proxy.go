@@ -14,11 +14,10 @@ func init() {
 }
 
 // Proxy proxies the requests to the remote
-func Proxy(src net.Conn, targetProto, connectionStr string) {
+func Proxy(src net.Conn, targetProto, connectionStr string) error {
 	dst, err := net.Dial(targetProto, connectionStr)
 	if err != nil {
-		logger.Fatal("fatal error occurred while connecting to remote host", zap.String("remoteHost", connectionStr),
-			zap.Error(err))
+		return err
 	}
 
 	defer dst.Close()
@@ -34,7 +33,8 @@ func Proxy(src net.Conn, targetProto, connectionStr string) {
 
 	// Copy our destination's output back to our source
 	if _, err := io.Copy(src, dst); err != nil {
-		logger.Fatal("fatal error occurred while proxying", zap.String("src", src.LocalAddr().String()),
-			zap.String("dst", src.RemoteAddr().String()), zap.Error(err))
+		return err
 	}
+
+	return nil
 }
