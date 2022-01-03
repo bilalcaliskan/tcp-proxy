@@ -21,8 +21,6 @@ func TestProxy(t *testing.T) {
 	}{
 		{"TCP3000", "tcp", "tcp", "en.wikipedia.org",
 			"/wiki/OSI_model", 3000, 443},
-		{"TCP3001", "tcp", "tcp", "en.wikipedia.org",
-			"/wiki/Tesla,_Inc.", 3001, 443},
 	}
 
 	for _, tc := range cases {
