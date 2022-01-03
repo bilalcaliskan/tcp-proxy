@@ -21,12 +21,7 @@ func Proxy(src net.Conn, targetProto, connectionStr string) {
 			zap.Error(err))
 	}
 
-	defer func() {
-		err := dst.Close()
-		if err != nil {
-			panic(err)
-		}
-	}()
+	defer dst.Close()
 
 	// Run in goroutine to prevent io.Copy from blocking
 	go func() {
