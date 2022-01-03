@@ -18,9 +18,12 @@ func TestProxy(t *testing.T) {
 	var cases = []struct {
 		name, proxyProto, targetProto, targetDns, contentUrl string
 		proxyPort, targetPort                                int
+		shouldSucceed                                        bool
 	}{
 		{"TCP3000", "tcp", "tcp", "en.wikipedia.org",
-			"/wiki/OSI_model", 3000, 443},
+			"/wiki/OSI_model", 3000, 443, true},
+		{"TCP3001", "tcp", "tcp", "foo.example.com",
+			"/wiki/OSI_model", 3001, 443, false},
 	}
 
 	for _, tc := range cases {
@@ -51,7 +54,14 @@ func TestProxy(t *testing.T) {
 					}
 
 					connectionStr := fmt.Sprintf("%s:%d", tc.targetDns, tc.targetPort)
-					go Proxy(conn, tc.targetProto, connectionStr)
+					go func() {
+						err := Proxy(conn, tc.targetProto, connectionStr)
+						if tc.shouldSucceed {
+							assert.Nil(t, err)
+						} else {
+							assert.NotNil(t, err)
+						}
+					}()
 				}
 			}()
 
@@ -91,11 +101,16 @@ func TestProxy(t *testing.T) {
 
 					req.Host = tc.targetDns
 					resp, err := client.Do(req)
-					assert.Nil(t, err)
 
-					body, err := ioutil.ReadAll(resp.Body)
-					assert.Nil(t, err)
-					assert.NotEmpty(t, string(body))
+					if tc.shouldSucceed {
+						assert.Nil(t, err)
+
+						body, err := ioutil.ReadAll(resp.Body)
+						assert.Nil(t, err)
+						assert.NotEmpty(t, string(body))
+					} else {
+						assert.NotNil(t, err)
+					}
 
 					break
 				}
