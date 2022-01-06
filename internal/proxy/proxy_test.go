@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 	"net"
 	"net/http"
-	"sync"
 	"testing"
 	"time"
 )
@@ -28,18 +27,9 @@ func TestProxy(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
+			stopChan := make(chan bool)
+
 			go func() {
-				var conn net.Conn
-				var err error
-
-				defer func(conn net.Conn) {
-					err := conn.Close()
-					if err != nil {
-						t.Error("an error occured while closing current connection")
-						return
-					}
-				}(conn)
-
 				listener, err := net.Listen(tc.proxyProto, fmt.Sprintf(":%d", tc.proxyPort))
 				if err != nil {
 					t.Errorf("%v\n", err.Error())
@@ -47,6 +37,8 @@ func TestProxy(t *testing.T) {
 				}
 
 				for {
+					var err error
+					var conn net.Conn
 					conn, err = listener.Accept()
 					if err != nil {
 						t.Errorf("%v\n", err.Error())
@@ -64,9 +56,6 @@ func TestProxy(t *testing.T) {
 					}()
 				}
 			}()
-
-			var wg sync.WaitGroup
-			wg.Add(1)
 
 			go func() {
 				for i := 0; i <= 5; i++ {
@@ -112,13 +101,14 @@ func TestProxy(t *testing.T) {
 						assert.NotNil(t, err)
 					}
 
+					t.Logf("function returned, exiting from current case")
 					break
 				}
 
-				wg.Done()
+				stopChan <- true
 			}()
 
-			wg.Wait()
+			<-stopChan
 		})
 	}
 }
