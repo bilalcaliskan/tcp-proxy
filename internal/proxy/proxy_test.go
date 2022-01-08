@@ -37,17 +37,14 @@ func TestProxy(t *testing.T) {
 				}
 
 				for {
-					var err error
-					var conn net.Conn
-					conn, err = listener.Accept()
+					conn, err := listener.Accept()
 					if err != nil {
 						t.Errorf("%v\n", err.Error())
 						return
 					}
 
-					connectionStr := fmt.Sprintf("%s:%d", tc.targetDns, tc.targetPort)
 					go func() {
-						err := Proxy(conn, tc.targetProto, connectionStr)
+						err := Proxy(conn, tc.targetProto, fmt.Sprintf("%s:%d", tc.targetDns, tc.targetPort))
 						if tc.shouldSucceed {
 							assert.Nil(t, err)
 						} else {

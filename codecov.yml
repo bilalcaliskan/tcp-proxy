@@ -22,7 +22,7 @@ coverage:
         # Set the pull request requirement to not regress overall coverage by more than 5%
         # and let codecov.io set the goal for the code changed in the patch.
         target: auto
-        threshold: 8
+        threshold: 8h
 
 ignore:
   - cmd/**/*
