@@ -1,13 +1,21 @@
+---
 project_name: tcp-proxy
 env:
   - CGO_ENABLED=0
   - GOFLAGS=-mod=vendor
   - GO111MODULE=auto
-
 before:
   hooks:
     - go mod vendor
-
+archives:
+  - replacements:
+      amd64: x86_64
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
 builds:
   - id: binary
     goos:
@@ -18,3 +26,17 @@ builds:
     ldflags:
       - -s -w
     main: ./cmd/tcp-proxy/main.go
+brews:
+  - name: tcp-proxy
+    tap:
+      # The token determines the release type (Github/Gitlab).
+      owner: bilalcaliskan
+      name: homebrew-tap
+      token: "{{ .Env.TAP_GITHUB_TOKEN }}"
+    folder: Formula
+    # Brew fails from multiple 32-bit arm versions.
+    # Specify which version should be used.
+    goarm: 6
+    homepage: https://github.com/bilalcaliskan/tcp-proxy
+    license: apache-2.0
+    description: simple TCP proxy written with Golang using built-in net package
