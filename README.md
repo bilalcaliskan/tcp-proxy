@@ -32,6 +32,13 @@ After then, you can simply run binary by providing required command line argumen
 $ ./tcp-proxy --targetDns en.wikipedia.org --targetPort=443 --proxyPort=3000
 ```
 
+### Homebrew
+This project can be installed with [Homebrew](https://brew.sh/):
+```
+brew tap bilalcaliskan/tap
+brew install bilalcaliskan/tap/tcp-proxy
+```
+
 ### Source
 Currently, source installation method requires [Golang 1.16](https://golang.org/doc/go1.16)
 ```shell
